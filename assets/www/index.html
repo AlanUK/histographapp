@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Histograph Mobile Web App</title>
+<link href="jquery-mobile/jquery.mobile.theme-1.0.min.css" rel="stylesheet" type="text/css"/>
+<link href="jquery-mobile/jquery.mobile.structure-1.0.min.css" rel="stylesheet" type="text/css"/>
+<link rel="stylesheet" href="css/custom_styles.css" type="text/css"/>
+<link href='http://fonts.googleapis.com/css?family=Playball' rel='stylesheet' type='text/css'>
+<script src="jquery-mobile/jquery-1.6.4.min.js" type="text/javascript"></script>
+<script src="jquery-mobile/jquery.mobile-1.0.min.js" type="text/javascript"></script>
+<script type="text/javascript" charset="utf-8" src="scripts/cordova.js"></script>
+
+<!--  Temp positioning of JS script to get user's GPS data, 
+ 		TODO: move this into external script file, and only call the function getGPS when we move onto the camera page
+ 			  and call it aSync'ly... -->
+ <script type="text/javascript" charset="utf-8">
+ 
+ 	// ref: from: Gifford, M. PhoneGap Application Development Cookbook  pp: 23-26 
+ 		
+ 		 // Set the event listener to run when the device is ready
+       document.addEventListener( "deviceready", onDeviceReady, false);
+ 	
+       // obtain the current geolocation data
+       function onDeviceReady() { navigator.geolocation.getCurrentPosition(onSuccess, onError);
+       
+    	// Run after successful transaction : display the position data
+       function onSuccess(position) {
+         var geoElement = document.getElementById('geolocationData');
+         
+         geoElement .innerHTML = 'Latitude: '  + position.coords.latitude + '<br />' + ￼
+								 'Longitude: ' + position.coords.longitude + '<br />' +
+								 'Altitude: '  + position.coords.altitude + '<br />' +
+								 'Accuracy: '  + position.coords.accuracy + '<br />' +
+								 'Altitude Accuracy: ' + position.coords.altitudeAccuracy + '<br />' + 
+								 'Heading: ' + position.coords.heading  + '<br />' +
+  								 'Speed: '   + position.coords.speed + '<br />' +
+  								 'Timestamp: ' + position.timestamp + '<br />';
+		}
+       
+       /* use the value of the returned error code 
+       to determine which message to display to the user. 
+       This will be set as the HTML content of the geolocationData div element
+       */
+       function onError(error) {
+    	   var errString = '';
+    	   // Check to see if we have received an error code
+    	   if(error.code) {
+    	     // If we have, handle it by case
+    	     switch(error.code)
+    	     {
+    	       case 1: // PERMISSION_DENIED
+    	       errString =
+    	           'Unable to obtain the location information ' +
+    	           'because the device does not have permission '+
+    	           'to the use that service.';
+    	       break;
+    	       case 2: // POSITION_UNAVAILABLE
+    	         errString =
+    	           'Unable to obtain the location information ' +
+    	           'because the device location could not ' +
+    	           'be determined.';
+    	       break;
+    	       case 3: // TIMEOUT
+    	         errString =
+    	           'Unable to obtain the location within the ' +
+    	           'specified time allocation.';
+    	       break;
+    	       default: // UNKOWN_ERROR
+    	         errString =
+    	           'Unable to obtain the location of the ' +
+    	           
+    	           'device due to an unknown error.';
+               break;
+  				} 
+    	     }
+           // Handle any errors we may face
+           var element = document.getElementById('geolocationData');
+            element.innerHTML = errString;
+         }
+       
+}
+ 	
+ 	
+ </script>
+ 
+</head>
+<body>
+
+
+<!-- Welcome Page -->
+<div data-role="page" id="welcomePage" data-theme="a">  
+  <div data-role="header">
+  <a href="#accountPage" data-transition="slide" data-icon="gear">My Account</a>
+	<a href="#helpMainPage" data-icon="info" class="ui-btn-right">Help</a>
+    
+	<span class="ui-title" />
+</div>
+ 
+  <div data-role="content">
+    <div class="histo_img_wrapper"> </div>
+    <div class="block_spacer"> </div>
+    <p class = "histo_font_24 red_text centre_text">Connect your present location with it's past...</p>
+    
+    <a data-role="button" data-transition="slide" data-theme="b" href="#takePhotoPage" class="white_text histo_font_24 " data-mini="true"> ...Create a HistoGraph! </a> 
+     
+    </div>
+</div>
+<!-- Welcome Page End-->
+
+<!-- Camaera Page -->
+<!-- Notes:
+
+Once the user is at this page, async send the user's GPS and direction 
+data to server
+-->
+<div data-role="page" id="takePhotoPage">
+  <div data-role="header">
+    <span class="ui-title" ></span>
+  </div>
+  <div data-role="content"> Content 
+   <div id="geolocationData">Obtaining data...</div>
+   </div>
+  <div data-role="footer">
+    <h4>Page Footer</h4>
+  </div>
+</div>
+<!-- Camaera Page End-->
+
+<!-- Scroll Stack Page -->
+<!-- Notes:
+By this time, the images for this location, should have returned to phone
+Now as the user is scrolling through selecting images, 
+async send the image they have taken to server and save in Datastore
+- this will speed up the creation of the composite image - can just use the id's of the images that are all now persisted.
+
+-->
+<div data-role="page" id="scrollStackPage">
+  <div data-role="header">
+    <h1>Page Three</h1>
+  </div>
+  <div data-role="content"> Content </div>
+  <div data-role="footer">
+    <h4>Page Footer</h4>
+  </div>
+</div>
+
+<!-- Scroll Stack Page End-->
+
+<!-- Histograph Presented Page -->
+<!-- Notes:
+Once the user has selected all the images they want in the Histograph
+send these as a JSON array to server, 
+and produce composite image.
+Make sure to display empty page immead, 
+and as async process of sending img id's and creating and finally 
+returning the composite img is occuring - present Histograph
+branded spinning async wheel, until final img is returned.
+
+-->
+
+<div data-role="page" id="checkHistoPage">
+  <div data-role="header">
+    <h1>Page Four</h1>
+  </div>
+  <div data-role="content"> Content </div>
+  <div data-role="footer">
+    <h4>Page Footer</h4>
+  </div>
+</div>
+
+<!-- Histograph Presented Page End -->
+
+<!-- Share Histograph Page -->
+<!-- Notes:
+Present user option of sharing composite img via their 
+social media channels or via physical postcard
+-->
+<div data-role="page" id="shareHistoPage">
+  <div data-role="header">
+    <h1>Page One</h1>
+  </div>
+  <div data-role="content">
+    <ul data-role="listview">
+      <li><a href="#page2">Page Two</a></li>
+      <li><a href="#page3">Page Three</a></li>
+      <li><a href="#page4">Page Four</a></li>
+    </ul>
+  </div>
+  <div data-role="footer">
+    <h4>Page Footer</h4>
+  </div>
+</div>
+
+<!-- Share Histograph Page End-->
+
+<!-- User Account Page -->
+<!-- Notes:
+Should this be prefetched and cached?
+-->
+<div data-role="page" id="accountPage">
+  <div data-role="header">
+    <h1>Account Page</h1>
+  </div>
+  <div data-role="content">
+    <ul data-role="listview">
+      <li><a href="#page2">Page Two</a></li>
+      <li><a href="#page3">Page Three</a></li>
+      <li><a href="#page4">Page Four</a></li>
+    </ul>
+  </div>
+  <div data-role="footer">
+    <h4>Page Footer</h4>
+  </div>
+</div>
+
+<!-- User Account Page End -->
+
+<!-- Enter Msg Page -->
+<!-- Notes:
+Where user enter's message to include on Postcard,
+and possibly recipient's address, if not filled from
+local contacts address book
+-->
+<div data-role="page" id="enterMsgPage">
+  <div data-role="header">
+    <h1>Page One</h1>
+  </div>
+  <div data-role="content">
+    <ul data-role="listview">
+      <li><a href="#page2">Page Two</a></li>
+      <li><a href="#page3">Page Three</a></li>
+      <li><a href="#page4">Page Four</a></li>
+    </ul>
+  </div>
+  <div data-role="footer">
+    <h4>Page Footer</h4>
+  </div>
+</div>
+
+<!-- Enter Msg Page End-->
+
+<!-- confirmationPage -->
+<!-- Notes: 
+Allow user final check before sending
+Display price info, recipient details, etc - allow editing.
+-->
+<div data-role="page" id="confirmationPage">
+  <div data-role="header">
+    <h1>Page One</h1>
+  </div>
+  <div data-role="content">
+    <ul data-role="listview">
+      <li><a href="#page2">Page Two</a></li>
+      <li><a href="#page3">Page Three</a></li>
+      <li><a href="#page4">Page Four</a></li>
+    </ul>
+  </div>
+  <div data-role="footer">
+    <h4>Page Footer</h4>
+  </div>
+</div>
+<!-- confirmationPage end-->
+
+<!--  JS - to 'speed up' page loading speed 
+<script src="jquery-mobile/jquery-1.6.4.min.js" type="text/javascript"></script>
+<script src="jquery-mobile/jquery.mobile-1.0.min.js" type="text/javascript"></script>
+<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+-->
+</body>
+</html>

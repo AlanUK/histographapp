@@ -1,0 +1,93 @@
+@charset "UTF-8";
+/* CSS Document */
+/* Get rid of the gradient of all pages  - old fashioned now*/
+
+.ui-body-a{
+	background-image:none;
+	background-color:#000;
+}
+
+.histo_img_wrapper{
+	height:105px;
+	width:276px;
+	background-image:url(../img/HistoGraph-Logo-with-Tag.jpg);
+	margin:auto;
+}
+
+/* fills whole div as a clickable a href link*/
+.div_link{
+  position:absolute; 	
+  width:100%;
+  height:100%;
+  top:0;
+  left: 0;
+}
+
+/* Fonts: */
+
+.histo_font_72{
+	font-family: 'Playball', cursive;
+	font-size:72px;
+}
+
+
+.histo_font_36{
+	font-family: 'Playball', cursive;
+	font-size:36px;
+}
+
+.histo_font_24{
+	font-family: 'Playball', cursive;
+	font-size:24px;
+}
+
+.histo_font_12{
+	font-family: 'Playball', cursive;
+	font-size:12px;
+}
+
+.red_text{
+	color:#F00;
+}
+
+.white_text{
+	color:#FFF;
+}
+
+.border_small{
+	border:thin;
+	border-color:#FFF;
+}
+
+.red_bkgrnd{
+	background-color:#F00;
+	background-image:none;
+}
+
+.page_header{
+	overflow:visible;
+}
+
+/* see:
+http://stackoverflow.com/questions/6301219/how-to-change-the-active-state-default-color-blue
+*/
+.ui-btn-active { 
+	color: red !important; 
+	background: none !important; 
+	/*background-color: green !important;  */
+}
+
+.ui-header .ui-btn{
+	display:block;
+}
+
+
+.centre_text{
+	text-align: center;
+}
+
+.block_spacer{
+	
+	display:block;
+	
+}
