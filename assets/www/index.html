@@ -7,83 +7,7 @@
 <link href="jquery-mobile/jquery.mobile.structure-1.0.min.css" rel="stylesheet" type="text/css"/>
 <link rel="stylesheet" href="css/custom_styles.css" type="text/css"/>
 <link href='http://fonts.googleapis.com/css?family=Playball' rel='stylesheet' type='text/css'>
-<script src="jquery-mobile/jquery-1.6.4.min.js" type="text/javascript"></script>
-<script src="jquery-mobile/jquery.mobile-1.0.min.js" type="text/javascript"></script>
-<script type="text/javascript" charset="utf-8" src="scripts/cordova.js"></script>
 
-<!--  Temp positioning of JS script to get user's GPS data, 
- 		TODO: move this into external script file, and only call the function getGPS when we move onto the camera page
- 			  and call it aSync'ly... -->
- <script type="text/javascript" charset="utf-8">
- 
- 	// ref: from: Gifford, M. PhoneGap Application Development Cookbook  pp: 23-26 
- 		
- 		 // Set the event listener to run when the device is ready
-       document.addEventListener( "deviceready", onDeviceReady, false);
- 	
-       // obtain the current geolocation data
-       function onDeviceReady() { navigator.geolocation.getCurrentPosition(onSuccess, onError);
-       
-    	// Run after successful transaction : display the position data
-       function onSuccess(position) {
-         var geoElement = document.getElementById('geolocationData');
-         
-         geoElement .innerHTML = 'Latitude: '  + position.coords.latitude + '<br />' + ￼
-								 'Longitude: ' + position.coords.longitude + '<br />' +
-								 'Altitude: '  + position.coords.altitude + '<br />' +
-								 'Accuracy: '  + position.coords.accuracy + '<br />' +
-								 'Altitude Accuracy: ' + position.coords.altitudeAccuracy + '<br />' + 
-								 'Heading: ' + position.coords.heading  + '<br />' +
-  								 'Speed: '   + position.coords.speed + '<br />' +
-  								 'Timestamp: ' + position.timestamp + '<br />';
-		}
-       
-       /* use the value of the returned error code 
-       to determine which message to display to the user. 
-       This will be set as the HTML content of the geolocationData div element
-       */
-       function onError(error) {
-    	   var errString = '';
-    	   // Check to see if we have received an error code
-    	   if(error.code) {
-    	     // If we have, handle it by case
-    	     switch(error.code)
-    	     {
-    	       case 1: // PERMISSION_DENIED
-    	       errString =
-    	           'Unable to obtain the location information ' +
-    	           'because the device does not have permission '+
-    	           'to the use that service.';
-    	       break;
-    	       case 2: // POSITION_UNAVAILABLE
-    	         errString =
-    	           'Unable to obtain the location information ' +
-    	           'because the device location could not ' +
-    	           'be determined.';
-    	       break;
-    	       case 3: // TIMEOUT
-    	         errString =
-    	           'Unable to obtain the location within the ' +
-    	           'specified time allocation.';
-    	       break;
-    	       default: // UNKOWN_ERROR
-    	         errString =
-    	           'Unable to obtain the location of the ' +
-    	           
-    	           'device due to an unknown error.';
-               break;
-  				} 
-    	     }
-           // Handle any errors we may face
-           var element = document.getElementById('geolocationData');
-            element.innerHTML = errString;
-         }
-       
-}
- 	
- 	
- </script>
- 
 </head>
 <body>
 
@@ -102,30 +26,11 @@
     <div class="block_spacer"> </div>
     <p class = "histo_font_24 red_text centre_text">Connect your present location with it's past...</p>
     
-    <a data-role="button" data-transition="slide" data-theme="b" href="#takePhotoPage" class="white_text histo_font_24 " data-mini="true"> ...Create a HistoGraph! </a> 
+    <a data-role="button" data-transition="slide" data-theme="b" href="#" class="white_text histo_font_24 " data-mini="true" onclick="capturePhoto();"> ...Create a HistoGraph! </a> 
      
     </div>
 </div>
 <!-- Welcome Page End-->
-
-<!-- Camaera Page -->
-<!-- Notes:
-
-Once the user is at this page, async send the user's GPS and direction 
-data to server
--->
-<div data-role="page" id="takePhotoPage">
-  <div data-role="header">
-    <span class="ui-title" ></span>
-  </div>
-  <div data-role="content"> Content 
-   <div id="geolocationData">Obtaining data...</div>
-   </div>
-  <div data-role="footer">
-    <h4>Page Footer</h4>
-  </div>
-</div>
-<!-- Camaera Page End-->
 
 <!-- Scroll Stack Page -->
 <!-- Notes:
@@ -137,11 +42,11 @@ async send the image they have taken to server and save in Datastore
 -->
 <div data-role="page" id="scrollStackPage">
   <div data-role="header">
-    <h1>Page Three</h1>
+    <h1>scrollStackPage Header</h1>
   </div>
-  <div data-role="content"> Content </div>
+  <div data-role="content"> scrollStackPage content </div>
   <div data-role="footer">
-    <h4>Page Footer</h4>
+    <h4>scrollStackPage Footer</h4>
   </div>
 </div>
 
@@ -262,10 +167,11 @@ Display price info, recipient details, etc - allow editing.
 </div>
 <!-- confirmationPage end-->
 
-<!--  JS - to 'speed up' page loading speed 
-<script src="jquery-mobile/jquery-1.6.4.min.js" type="text/javascript"></script>
+<!--  JS - to 'speed up' page loading speed -->
+<script src="jquery-mobile/jquery-1.6.4.min.js" type="text/javascript"></script> 
+<!--   <script type="text/javascript" src="scripts/jquery-1.10.2.js"></script> -->
 <script src="jquery-mobile/jquery.mobile-1.0.min.js" type="text/javascript"></script>
-<script type="text/javascript" charset="utf-8" src="cordova.js"></script>
--->
+<script type="text/javascript" charset="utf-8" src="scripts/cordova.js"></script>
+<script type="text/javascript" src="scripts/histograph.js"></script>
 </body>
 </html>
