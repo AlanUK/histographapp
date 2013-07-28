@@ -1,93 +1,438 @@
 @charset "UTF-8";
 /* CSS Document */
-/* Get rid of the gradient of all pages  - old fashioned now*/
-
-.ui-body-a{
-	background-image:none;
-	background-color:#000;
+/* Get rid of the gradient of all pages  - old fashioned now
+ref: http://zomigi.com/blog/foreground-images-that-scale-with-the-layout/
+	- scaling imgs based on size of parent*/
+.ui-body-a {
+	background-image: none;
+	background-color: black;
 }
 
-.histo_img_wrapper{
-	height:105px;
-	width:276px;
-	background-image:url(../img/HistoGraph-Logo-with-Tag.jpg);
-	margin:auto;
+.histo_img_wrapper {
+	height: 105px;
+	width: 276px;
+	background-image: url(../img/HistoGraph-Logo-with-Tag.jpg);
+	margin: auto;
+}
+
+/* fills whole div as a clickable a href link*/@charset "UTF-8";
+/* CSS Document - from the main histograph project */
+
+@charset "UTF-8";
+/* CSS Document */
+/* Get rid of the gradient of all pages  - old fashioned now
+ref: http://zomigi.com/blog/foreground-images-that-scale-with-the-layout/
+	- scaling imgs based on size of parent*/
+.ui-body-a {
+	background-image: none;
+	background-color: black;
+}
+
+.histo_img_wrapper {
+	height: 105px;
+	width: 276px;
+	background-image: url(../img/HistoGraph-Logo-with-Tag.jpg);
+	margin: auto;
 }
 
 /* fills whole div as a clickable a href link*/
-.div_link{
-  position:absolute; 	
-  width:100%;
-  height:100%;
-  top:0;
-  left: 0;
+.div_link {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
 }
 
 /* Fonts: */
-
-.histo_font_72{
+.histo_font_72 {
 	font-family: 'Playball', cursive;
-	font-size:72px;
+	font-size: 72px;
 }
 
-
-.histo_font_36{
+.histo_font_36 {
 	font-family: 'Playball', cursive;
-	font-size:36px;
+	font-size: 36px;
 }
 
-.histo_font_24{
+.histo_font_24 {
 	font-family: 'Playball', cursive;
-	font-size:24px;
+	font-size: 24px;
 }
 
-.histo_font_12{
+.histo_font_12 {
 	font-family: 'Playball', cursive;
-	font-size:12px;
+	font-size: 12px;
 }
 
-.red_text{
-	color:#F00;
+.red_text {
+	color: #F00;
 }
 
-.white_text{
-	color:#FFF;
+.white_text {
+	color: #FFF;
 }
 
-.border_small{
-	border:thin;
-	border-color:#FFF;
+.border_small {
+	border: thin;
+	border-color: #FFF;
 }
 
-.red_bkgrnd{
-	background-color:#F00;
-	background-image:none;
+.red_bkgrnd {
+	background-color: #F00;
+	background-image: none;
 }
 
-.page_header{
-	overflow:visible;
+.page_header {
+	overflow: visible;
 }
 
 /* see:
 http://stackoverflow.com/questions/6301219/how-to-change-the-active-state-default-color-blue
 */
-.ui-btn-active { 
-	color: red !important; 
-	background: none !important; 
+.ui-btn-active {
+	color: red !important;
+	background: none !important;
 	/*background-color: green !important;  */
 }
 
-.ui-header .ui-btn{
-	display:block;
+.ui-header .ui-btn {
+	display: block;
 }
 
-
-.centre_text{
+.centre_text {
 	text-align: center;
 }
 
-.block_spacer{
-	
-	display:block;
-	
+.block_spacer {
+	display: block;
 }
+
+#imageStack {
+	width: 100%;
+	height: 100%;
+	/* OLD
+	position: absolute;
+	*/
+	position: relative;
+	margin: auto;
+	overflow: hidden;
+	
+	/* background-color:black; */ 
+}
+
+#imageStack ul {
+	
+	
+	/* OLD
+	padding: 0;
+	position: relative;
+	margin: 0;
+	width: 100%;
+	height: 400px;*/
+	
+	/* New: */
+	height:100%;
+	width: 80%;
+    margin: 0 auto;
+   	/* OLD
+	position: fixed;
+	*/
+	position: relative; 
+   /* left:50%; */
+}
+
+#imageStack ul li {
+	
+		/* OLD
+	position: fixed;
+	*/
+	position: relative;
+
+	/*
+	top: 200px;
+	left: 460px;
+	
+	top: 20px;
+	left: 46px;
+	*/
+	display: block;
+	margin: 0 auto;
+	list-style: none;
+	background: #fefefe;
+	
+	/*
+		width: 300px;
+	height: 300px;
+	*/
+	/* width: 80%; */
+  	max-width: 500px;
+	/* height: 60%; */
+  	max-height: 500px;
+  	
+	padding: 20px 20px 40px 20px;
+	/* ORIG:
+	padding: 1% 1% 1% 1%;
+	*/
+	-webkit-box-shadow: 0px 0px 10px #000;
+	-moz-box-shadow: 0px 0px 10px #000;
+	-o-box-shadow: 0px 0px 10px #000;
+	-ms-box-shadow: 0px 0px 10px #000;
+	box-shadow: 0px 0px 10px #000;
+	-webkit-transition: 0.2s -webkit-transform linear;
+	-moz-transition: 0.2s -moz-transform linear;
+	-ms-transition: 0.2s -ms-transform linear;
+	-o-transition: 0.2s -o-transform linear;
+	transition: 0.2s transform linear;
+}
+
+.ui-draggable-dragging {
+	-webkit-transform: rotate(0deg) scale(1.2) !important;
+	-moz-transform: rotate(0deg) scale(1.2) !important;
+	-ms-transform: rotate(0deg) scale(1.2) !important;
+	-o-transform: rotate(0deg) scale(1.2) !important;
+	transform: rotate(0deg) scale(1.2) !important;
+}
+
+#imageStack ul li img {
+	border: 1px solid #ccc;
+	width: 100%;
+  	max-width: 500px;
+  	height: 95%;
+  	max-height: 500px; 
+}
+
+#imageStack ul li img:after {
+	-moz-box-shadow: inset 0 0 10em #666;
+	-webkit-box-shadow: inset 0 0 10em #666;
+	-ms-box-shadow: inset 0 0 10em #666;
+	-o-box-shadow: inset 0 0 10em #666;
+	box-shadow: inset 0 0 10em #666;
+}
+
+#imageStack ul li div {
+		/* OLD
+	position: absolute;
+	*/
+	position: relative;
+	bottom: 5px;
+	padding-top:10px;
+	/* left: 10%; */
+	text-align: center;
+}
+
+#scrollStackPage{
+	overflow: hidden;
+	background-color:black;
+}
+
+
+#dragContainer{
+	/*
+	this is the area that imgs can be dragged in  vertically, needs to be a % bigger than the view port
+	to allow imgs to go out of view, then get moved to the back of the stack */
+	width: 100%;
+	height: 150%;
+
+}
+
+
+.div_link {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+}
+
+/* Fonts: */
+.histo_font_72 {
+	font-family: 'Playball', cursive;
+	font-size: 72px;
+}
+
+.histo_font_36 {
+	font-family: 'Playball', cursive;
+	font-size: 36px;
+}
+
+.histo_font_24 {
+	font-family: 'Playball', cursive;
+	font-size: 24px;
+}
+
+.histo_font_12 {
+	font-family: 'Playball', cursive;
+	font-size: 12px;
+}
+
+.red_text {
+	color: #F00;
+}
+
+.white_text {
+	color: #FFF;
+}
+
+.border_small {
+	border: thin;
+	border-color: #FFF;
+}
+
+.red_bkgrnd {
+	background-color: #F00;
+	background-image: none;
+}
+
+.page_header {
+	overflow: visible;
+}
+
+/* see:
+http://stackoverflow.com/questions/6301219/how-to-change-the-active-state-default-color-blue
+*/
+.ui-btn-active {
+	color: red !important;
+	background: none !important;
+	/*background-color: green !important;  */
+}
+
+.ui-header .ui-btn {
+	display: block;
+}
+
+.centre_text {
+	text-align: center;
+}
+
+.block_spacer {
+	display: block;
+}
+
+#imageStack {
+	width: 100%;
+	height: 100%;
+	/* OLD
+	position: absolute;
+	*/
+	position: relative;
+	margin: auto;
+	overflow: hidden;
+	
+	/* background-color:black; */ 
+}
+
+#imageStack ul {
+	
+	
+	/* OLD
+	padding: 0;
+	position: relative;
+	margin: 0;
+	width: 100%;
+	height: 400px;*/
+	
+	/* New: */
+	height:100%;
+	width: 80%;
+    margin: 0 auto;
+   	/* OLD
+	position: fixed;
+	*/
+	position: relative; 
+   /* left:50%; */
+}
+
+#imageStack ul li {
+	
+		/* OLD
+	position: fixed;
+	*/
+	position: relative;
+
+	/*
+	top: 200px;
+	left: 460px;
+	
+	top: 20px;
+	left: 46px;
+	*/
+	display: block;
+	margin: 0 auto;
+	list-style: none;
+	background: #fefefe;
+	
+	/*
+		width: 300px;
+	height: 300px;
+	*/
+	width: 80%;
+  	max-width: 500px;
+	height: 60%;
+  	max-height: 500px;
+  	
+	padding: 20px 20px 40px 20px;
+	/* ORIG:
+	padding: 1% 1% 1% 1%;
+	*/
+	-webkit-box-shadow: 0px 0px 10px #000;
+	-moz-box-shadow: 0px 0px 10px #000;
+	-o-box-shadow: 0px 0px 10px #000;
+	-ms-box-shadow: 0px 0px 10px #000;
+	box-shadow: 0px 0px 10px #000;
+	-webkit-transition: 0.2s -webkit-transform linear;
+	-moz-transition: 0.2s -moz-transform linear;
+	-ms-transition: 0.2s -ms-transform linear;
+	-o-transition: 0.2s -o-transform linear;
+	transition: 0.2s transform linear;
+}
+
+.ui-draggable-dragging {
+	-webkit-transform: rotate(0deg) scale(1.2) !important;
+	-moz-transform: rotate(0deg) scale(1.2) !important;
+	-ms-transform: rotate(0deg) scale(1.2) !important;
+	-o-transform: rotate(0deg) scale(1.2) !important;
+	transform: rotate(0deg) scale(1.2) !important;
+}
+
+#imageStack ul li img {
+	border: 1px solid #ccc;
+	width: 100%;
+  	max-width: 500px;
+  	height: 95%;
+  	max-height: 500px; 
+}
+
+#imageStack ul li img:after {
+	-moz-box-shadow: inset 0 0 10em #666;
+	-webkit-box-shadow: inset 0 0 10em #666;
+	-ms-box-shadow: inset 0 0 10em #666;
+	-o-box-shadow: inset 0 0 10em #666;
+	box-shadow: inset 0 0 10em #666;
+}
+
+#imageStack ul li div {
+		/* OLD
+	position: absolute;
+	*/
+	position: relative;
+	bottom: 15px;
+	left: 20px;
+}
+
+#scrollStackPage{
+	overflow: hidden;
+	background-color:black;
+}
+
+
+#dragContainer{
+	/*
+	this is the area that imgs can be dragged in  vertically, needs to be a % bigger than the view port
+	to allow imgs to go out of view, then get moved to the back of the stack */
+	width: 100%;
+	height: 150%;
+
+}
+
+
