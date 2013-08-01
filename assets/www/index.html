@@ -2,9 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Histograph Mobile Web App</title>
-
-<!--  OLD CODE -->
+<title>HistoGraph</title>
  
 <link href="jquery-mobile/jquery.mobile.theme-1.0.min.css" rel="stylesheet" type="text/css"/>
 <link href="jquery-mobile/jquery.mobile.structure-1.0.min.css" rel="stylesheet" type="text/css"/>
@@ -13,35 +11,18 @@
  
    <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
   <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
-  <script src="http://code.jquery.com/ui/1.9.1/jquery-ui.min.js"></script>
-  <script src="scripts/jquery.ui.touch-punch.min.js"></script>
   <script type="text/javascript" charset="utf-8" src="scripts/cordova.js"></script>
   <script type="text/javascript" src="scripts/histograph.js"></script>
-  
- 
-  
-  <!--  NEW CODE 
-  <link rel="stylesheet" href="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.css" />
-  <link rel="stylesheet" href="css/custom_styles.css" type="text/css"/>
-  <link href='http://fonts.googleapis.com/css?family=Playball' rel='stylesheet' type='text/css'>
- 
-  <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-  <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
-  <script src="http://code.jquery.com/ui/1.9.1/jquery-ui.min.js"></script>
-  <script src="scripts/jquery.ui.touch-punch.min.js"></script>
-  
-    <script type="text/javascript" charset="utf-8" src="scripts/cordova.js"></script>
-  <script type="text/javascript" src="scripts/histograph.js"></script>
--->
+
 </head>
 <body>
 
 
 <!-- Welcome Page -->
-<div data-role="page" id="welcomePage" data-theme="a">  
+<div data-role="page" id="welcomePage"  data-theme="a" data-content-theme="a">  
   <div data-role="header">
-  <a href="#accountPage" data-transition="slide" data-icon="gear">My Account</a>
-	<a href="#helpMainPage" data-icon="info" class="ui-btn-right">Help</a>
+  <a href="#accountPage" data-transition="slide" data-icon="gear" data-corners="false">My Account</a>
+	<a href="#helpMainPage" data-icon="info" class="ui-btn-right" data-corners="false">Help</a>
     
 	<span class="ui-title" ></span>
 </div>
@@ -51,7 +32,7 @@
     <div class="block_spacer"> </div>
     <p class = "histo_font_24 red_text centre_text">Connect your present location with it's past...</p>
     
-    <a data-role="button" data-transition="slide" data-theme="b" href="#" class="white_text histo_font_24 " data-mini="true" onclick="capturePhoto();"> ...Create a HistoGraph! </a> 
+    <a data-role="button" data-corners="false" data-transition="slide" data-theme="b" href="#" class="white_text histo_font_24 " data-mini="true" onclick="capturePhoto();"> ...Create a HistoGraph! </a> 
      
     </div>
 </div>
@@ -65,13 +46,24 @@ async send the image they have taken to server and save in Datastore
 - this will speed up the creation of the composite image - can just use the id's of the images that are all now persisted.
 
 -->
-<div data-role="page" id="scrollStackPage" >
+<div data-role="page" id="scrollStackPage"  data-theme="a" data-content-theme="c">
+
+ <div data-role="header">
+ 
+ 
+<div class=" white_text headerbar histo_font_24 fillme">Tap Photo To Select/Deselect</div> <div class=" white_text makeHistoBtn histo_font_24 fillme" onClick="makeHistograph();">Done</div>
+
+  </div> 
 
   <div data-role="content"> 
+  
+  	
   <div id="imageStack"> </div> 
 
   </div>
-
+  <div data-role="footer"><!-- let user go to next step, without having to scroll to the top of the screen again.. -->
+    <div class=" white_text headerbar histo_font_24 fillme">Tap Photo To Select/Deselect</div> <div class=" white_text makeHistoBtn histo_font_24 fillme" onClick="makeHistograph();">Done</div>
+  </div>
 </div>
 
 <!-- Scroll Stack Page End-->
@@ -88,7 +80,7 @@ branded spinning async wheel, until final img is returned.
 
 -->
 
-<div data-role="page" id="checkHistoPage">
+<div data-role="page" id="checkHistoPage"  data-theme="a" data-content-theme="a">
   <div data-role="header">
     <h1>Page Four</h1>
   </div>
@@ -190,8 +182,36 @@ Display price info, recipient details, etc - allow editing.
   </div>
 </div>
 <!-- confirmationPage end-->
+<!--  ask user for title for img they just took with camera -->
+<div data-role="page" id="enterImgTitlePage" data-theme="a" data-content-theme="a">
+  <div data-role="header">
+  <a href="#accountPage" data-transition="slide" data-icon="gear" data-corners="false">My Account</a>
+	<a href="#helpMainPage" data-icon="info" class="ui-btn-right" data-corners="false">Help</a>
+    
+	<span class="ui-title" ></span>
+</div>
+  <div data-role="content">
+<label for="basic">Enter Your Location/Title of the Image</label>
+<input type="text" name="name" id="imgTitle" data-mini="true" />
+  </div>
+    <div data-role="footer">
+    <div class=" white_text makeHistoBtn histo_font_24 fillme" onClick="imgTitleEntered();">Done</div>
+  </div>
+</div>
 
-<!--  JS - to 'speed up' page loading speed -->
+<!-- "fake ajax loading page..." -->
+<div data-role="page" id="developingPage"  data-theme="a" data-content-theme="a">
+  
+  <div data-role="content">
+  <div class="block_spacer"> </div>
+  <div id="developingLoader">
+	<p class = "histo_font_36 white_text centre_text" >Developing...</p>
+	<p class = "histo_font_36 white_text centre_text" >Please Wait</p>
+	</div>
+  </div>
+</div>
+
+<!--    JS - to 'speed up' page loading speed -->
 <!--  This script came with the version of jquery mobile - but have replaced with more up to date one,
 make sure it works together..  -->
 <!--  SO this works  - but might need to change for scrolling using punch.js

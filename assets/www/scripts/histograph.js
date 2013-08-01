@@ -1,40 +1,164 @@
-var testLclSrvr = false; // set true if working on local server 
-var logging = false;     // set to true, if want visible logging on the page.
-var postGPSEndPoint, gpsParams, longValue, latValue, dirValue, accuracyValue;
-var getBlobStoreURLEndPoint, processNewImgEndPoint, localPictureURL, imgFileName, getPhotoStackSinglePhotoPoint;
-var docObj;
 
+var logging = false;     // set to true, if want visible logging on the page.
+var gpsParams, longValue, latValue, dirValue, accuracyValue;
+var getBlobStoreURLEndPoint, processNewImgEndPoint, localPictureURL, imgFileName, imgTitleVal, getPhotoStackSinglePhotoPoint;
+var docObj;
+var lastclickpoint, curclickpoint; // used to fix tab bug - see: http://forum.jquery.com/topic/tap-fires-twice-with-live-tap
+var liItems;
+var userImgDataStoreID = 0;
+var loaderAnim;
 
 /////////
 //Initialisation code:
-if(testLclSrvr){
-	postGPSEndPoint = "http://localhost:8080/gethistographimages";
-	getBlobStoreURLEndPoint = "http://10.0.2.2:8080/getblobstoreurl"; //"http://10.0.2.2:8080/upload.jsp"; - if using file upload.. & not ajax
 
-}else{
-	postGPSEndPoint = "http://histographserver.appspot.com/gethistographimages";
-	getBlobStoreURLEndPoint = "http://histographserver.appspot.com/getblobstoreurl";
-	getPhotoStackSinglePhotoPoint = "http://histographserver.appspot.com/getsinglehistographimages";
-}
+getBlobStoreURLEndPoint = "http://histographserver.appspot.com/getblobstoreurl";
+getPhotoStackSinglePhotoPoint = "http://histographserver.appspot.com/getsinglehistographimages";
+selectedImgIdsEndPoint = "http://histographserver.appspot.com/makehistograph";
 
 docObj = $(document);// cache calls to the DOM.
 docObj.ready(function () {
+	
+	//on start up - send GPS of device to server and use callback func to receive imgs of that location from server
 	navigator.geolocation.getCurrentPosition(onGeoLocationSuccess,onGeoLocationError);
 
-	//NOW - need to scroll LONGWAYS, as stack was an issue in android..
-	//docObj.delegate('.ui-content', 'touchmove', false); // stop the scrolling
-
-//	docObj.bind('pageinit', function(){
-//	$( "#sortable" ).sortable();
-//	$( "#sortable" ).disableSelection();
-//	$( "#sortable" ).bind( "sortstop", function(event, ui) {
-//	$('#sortable').listview('refresh');
-//	});
-//	});
-
+	loaderAnim = $('#developingLoader');
+	
+	
+/////////
+	//animateLoader();
+	//var intervalID = setInterval(runIt, 4000);
 });
-//document.addEventListener("deviceready", onDeviceReady, false); //this is what your SUPPOSED to use in Phonegap - but looks like jquery's document call is a bit later
 
+function animateLoader() {
+	loaderAnim.animate({opacity:'+=1'}, 1500);
+	loaderAnim.animate({opacity:'-=0.6'}, 1500);
+}
+
+////////
+//function animate(elementID){
+//    //$(elementID).fadeIn(1000).delay(3000).fadeOut(1000);  
+//	$('#developingLoader').fadeIn(1000).delay(3000).fadeOut(1000); 
+//}
+
+///////
+//Camera code:
+
+//event handler for when user clicks on intro screen btn
+function capturePhoto() {
+	//bug: when loading new image stack page - we see the welcome page for a few seconds, then the image stack page - after camera...
+	// fix: ? - load a ""holding page - that just says "Developing" here... so this MAY get shown when we actually want to move to the image stack..??
+	$.mobile.changePage($('#developingPage'), 'slide');
+	//intervalID = setInterval(runIt, 4000);
+//	for(var i = 0; i<10;i++){
+//		animateLoader();
+//	}
+	
+	
+	
+	//see: http://docs.phonegap.com/en/2.2.0/cordova_camera_camera.md.html#camera.getPicture
+	navigator.camera.getPicture(onCameraSuccess, onCameraFail, {
+		quality : 75, // tested a few settings here: size/quality ratio - 75 is best.
+		destinationType : navigator.camera.DestinationType.FILE_URI,
+		sourceType : navigator.camera.PictureSourceType.CAMERA,
+		encodingType :   Camera.EncodingType.JPEG,
+		targetWidth : 400, // 300 x 300 px - suited to polaroid format. - but comes out at: 225 x 300... might just be my phone...
+		targetHeight : 400,// 400 x 400 - comes out good quality to size ratio.. when quality is at 75.
+		saveToPhotoAlbum: true // so that we can reference this img locally, for the local stack of polaroids.
+	});
+	
+
+}
+
+function onCameraSuccess(imageURI) {
+	//runIt();// do loading page animation..
+	//assign location & name of the img taken by user to global vars, for use later:
+	
+	localPictureURL = imageURI;
+	imgFileName = localPictureURL.substr(localPictureURL.lastIndexOf('/') + 1);
+	
+	//New: get user to enter title for the img just taken... and move rest of the code - to THAT event handler... =  imgTitleEntered()
+	$.mobile.changePage($('#enterImgTitlePage'), 'slide');
+	
+	
+//	for(var i = 0; i<10;i++){
+//		animateLoader();
+//	}
+//	localPictureURL = imageURI;
+//	imgFileName = localPictureURL.substr(localPictureURL.lastIndexOf('/') + 1);
+//
+//	// get the one time blobstore URL to post img to...
+//	$.get(getBlobStoreURLEndPoint, blobStoreURLSuccess);
+
+	// if we want to access the img locally.... ie: put it on top of the stack
+//	var smallImage = document.getElementById('smallImage');
+//	smallImage.style.display = 'block';
+//	smallImage.src = imageURI; //Originally: smallImage.src = "data:image/jpeg;base64," + imageURI;
+	//////////////////////////
+
+}
+//This posts img and assoc'd params to post URL/End point, returned by Blobstore...
+function blobStoreURLSuccess(blobStoreURL){
+
+	//Moved this....
+	//$.mobile.changePage($('#scrollStackPage'), 'slide');
+
+	var options = new FileUploadOptions();
+	var ft = new FileTransfer();
+	var params = new Object();
+	
+	params.imgTitle = imgTitleVal;
+	params.uniquePhoneID = device.uuid; 
+	params.lat = latValue; //TODO: get GPS lat
+	params.long  = longValue; //TODO: get GPS long
+	params.direction = "400";//TODO: get compass direction
+	// this should set the param "imgUpload" as the img file name, as required by our callback servlet 
+	//params.imgUpload = imgFileName; // - doesnt seem to be used - callback servlet - just needs to ask for param 'file' value.
+
+	options.params = params;
+	options.fileName = imgFileName;  
+	options.mimeType = "image/jpeg"; 
+
+	ft.upload(localPictureURL, encodeURI(blobStoreURL), fileUploadSuccess, fileUploadFail, options);
+	// while the user img is uploading, show the user the image stack of... their current img on top, and the historical imgs of that location....
+	//OK- still showing original welcome screen.. need to add another page - that loads between welcome page and camera page, which then
+	//	reappears btwn user taking photo with native camera and the stack page....
+	// could be the backwards clock animated gif??
+
+
+
+}
+
+function onCameraFail(message) {
+	alert('Failed because: ' + message);
+	
+}
+
+
+function fileUploadSuccess(r) {
+	
+	// save the dataStore ID of the img the user just uploaded....
+	userImgDataStoreID = r.response;
+	//alert("userImgDataStoreID = " + userImgDataStoreID);
+	
+	//TODO: this is a problem...
+	$.mobile.changePage($('#scrollStackPage'), 'slide'); 
+	// clearInterval(intervalID); // kill flashing loader page
+	// go straight to the scroll stack page??
+	// - or have a little info pop up, if the user has not submitted a histograph b4? - can check from response 
+	//	from server - 
+	// this seems to get called really late.... after all the files are uploaded.. dont need to do that-  just call straight after ft.upload...
+	//$.mobile.changePage($('#scrollStackPage'), 'slide');
+	//document.getElementById('testDiv3').innerHTML = "Success = "+ r.response;
+	//TODO:
+	// now automatically display the stack of imgs? with local file on top?
+}
+
+function fileUploadFail(error) {
+	//document.getElementById('testDiv3').innerHTML = "Failed = "+ error.code;
+}
+
+//end camera code
+/////////
 
 //Run after successful transaction- append the position data to the string
 function onGeoLocationSuccess(position) {
@@ -47,15 +171,6 @@ function onGeoLocationSuccess(position) {
 	latValue= position.coords.latitude; 
 	dirValue= 450;
 	accuracyValue = position.coords.accuracy;
-
-	//OLD:
-	// and appending to query string:
-//	gpsParams = "&lat=";
-//	gpsParams += latValue;
-//	gpsParams += "&long=";
-//	gpsParams += longValue;
-//	gpsParams += "&accuracy=";
-//	gpsParams += accuracValuey;
 
 //	// can not get this to work on my android.... for the moment, just go with GPS.
 //	gpsParams += "&dir=450"; // this will be flagged as an error when it hits the server
@@ -135,35 +250,25 @@ function postGPSToServer(){
 		//OLD CODE
 		//$('#imageStack').append(responseText).html;
 		//NEW CODE:
+		//alert("postGPSToServer() response text:" + responseText);
 		$('#imageStack').append(responseText).html;
-		//initAnim();
-
-
+		initAnim();
+		//$.mobile.loadPage('#scrollStackPage');
 	});
+}
 
-	//OLD:
-//	postGPSEndPoint += "?" + gpsParams;
 
-//	if(logging){
-//	$("#geolocationData").html(postGPSEndPoint);
-//	}
-//	//4. JSON: simple: -This works on phone - just need to ..init via: $(document).ready(function () {onDeviceReady();});
-//	$.ajax({
-//	type: 'GET',
-//	url: postGPSEndPoint,
-//	async: false,
-//	contentType: "application/json",
-//	dataType: 'jsonp'
-//	});
+function geoLocationErrorAlert(errorMsg) {
+	//TODO: this is not working for some reason - not getting alerts on phone...
+	navigator.notification.alert(errorMsg);
 
 }
-//Serious problem on Android with changing z-index on draggable:stop()
+
+
 function initAnim(){
 
-	//TODO: at least add slight rotation, so they're not a boring long list of imgs...
-
 	var rotation;
-	var liItems = $("#imageStack ul li"); // cache calls to the DOM
+	liItems = $("#imageStack ul li"); // cache calls to the DOM
 	var flip = true;
 
 	//init positions:
@@ -179,104 +284,107 @@ function initAnim(){
 
 		$(this).data("rotation",rotation);
 		$(this).css({webkitTransform:"rotate("+rotation+"deg)",MozTransform:"rotate("+rotation+"deg)",msTransform:"rotate("+rotation+"deg)",transform:"rotate("+rotation+"deg)"});
+		$(this).bind("tap", imageTapped);
+	});
+}
 
+function imageTapped(event){
+
+	if(isJqmGhostClick(event) ){
+		return;
+	}
+		
+	
+	if(event.target instanceof HTMLImageElement){
+		var thisObj = $(this);
+
+		if(thisObj.hasClass('selected')){
+			
+			//the first li, is having its tick removed automatically...
+			//alert("in Has Selected class")
+			thisObj.removeClass('selected');
+			thisObj.children().eq(0).remove();
+
+		}else{
+			//alert("in Has NOT Selected class")
+			thisObj.addClass('selected');
+			thisObj.prepend("<img src='img/tick.png' class='tick'>");
+
+		}
 	}
 
-	function swipeHandler( event ){
-		// $( event.target ).addClass( "swipe" );
-		//TODO:
+}
+
+//deal with double tap bug - http://forum.jquery.com/topic/tap-fires-twice-with-live-tap
+//check if click event firing twice on same position.
+function isJqmGhostClick(event){
+    curclickpoint = event.clientX+'x'+event.clientY;
+    if (lastclickpoint === curclickpoint) {
+      lastclickpoint = '';
+      return true;
+    } else {
+      lastclickpoint = curclickpoint;
+      return false;
+    }
+}
+
+//Sends ID's of the images that the user has selected back to the server.
+function makeHistograph(){
+	
+	$.mobile.changePage($('#developingPage'), 'slide');
+	for(var i = 0; i<10;i++){
+		animateLoader();
 	}
+	//alert("In makeHistograph. userImgDataStoreID = " + userImgDataStoreID);
 
-	function geoLocationErrorAlert(errorMsg) {
-		//TODO: this is not working for some reason - not getting alerts on phone...
-		navigator.notification.alert(errorMsg);
+	// hopefully - can use the unique phone id instead of session...
+	var uniquePhoneIDVal = device.uuid;
+	var imgidsVals = userImgDataStoreID + "_"; // at v least we'll get back the img the user took with the phone...
+	
+	var liItems = $("#imageStack ul li"); // cache calls to the DOM
+	
+	liItems.each(function(){
 
+		var thisObj = $(this);
+		if(thisObj.hasClass('selected')){
+			var id = thisObj.find('.photoInfo').attr('id');
+			imgidsVals += id + "_";
+		}
+	});
+	
+	
+	$.get(selectedImgIdsEndPoint, {uniquePhoneID : uniquePhoneIDVal, imgids : imgidsVals}, 
+			function(responseText){ // callback function - appends list of imgs to imageStack div and sets up the animation of poloriods
+		//TODO: append the jp to some element in the checkHisto page...
+//		$('#imageStack').append(responseText).html;
+//		initAnim();
+		// 
+
+		// finally - move to checkHistoPage
+		$.mobile.changePage($('#checkHistoPage'), 'slide');
+	});
+	
+}
+
+function imgTitleEntered(){
+	
+	$.mobile.changePage($('#developingPage'), 'slide');
+	// now we have the img... get the img title entered by the user...
+	
+	for(var i = 0; i<10;i++){
+		animateLoader();
 	}
-
-///////
-//	Camera code:
-
-//	event handler for when user clicks on intro screen btn
-	function capturePhoto() {
-		//see: http://docs.phonegap.com/en/2.2.0/cordova_camera_camera.md.html#camera.getPicture
-		navigator.camera.getPicture(onCameraSuccess, onCameraFail, {
-			quality : 75, // tested a few settings here: size/quality ratio - 75 is best.
-			destinationType : navigator.camera.DestinationType.FILE_URI,
-			sourceType : navigator.camera.PictureSourceType.CAMERA,
-			encodingType :   Camera.EncodingType.JPEG,
-			targetWidth : 400, // 300 x 300 px - suited to polaroid format. - but comes out at: 225 x 300... might just be my phone...
-			targetHeight : 400,// 400 x 400 - comes out good quality to size ratio.. when quality is at 75.
-			saveToPhotoAlbum: true // so that we can reference this img locally, for the local stack of polaroids.
-		});
-	}
-
-
-	function onCameraSuccess(imageURI) {
-
-		//assign location & name of the img taken by user to global vars, for use later:
-		localPictureURL = imageURI;
-		imgFileName = localPictureURL.substr(localPictureURL.lastIndexOf('/') + 1);
-
-		// get the one time blobstore URL to post img to...
-		$.get(getBlobStoreURLEndPoint, blobStoreURLSuccess);
-
-		// if we want to access the img locally.... ie: put it on top of the stack
-//		var smallImage = document.getElementById('smallImage');
-//		smallImage.style.display = 'block';
-//		smallImage.src = imageURI; //Originally: smallImage.src = "data:image/jpeg;base64," + imageURI;
-		//////////////////////////
-
-	}
-//	This posts img and assoc'd params to post URL/End point, returned by Blobstore...
-	function blobStoreURLSuccess(blobStoreURL){
-
-		$.mobile.changePage($('#scrollStackPage'), 'slide');
-
-		var options = new FileUploadOptions();
-		var ft = new FileTransfer();
-		var params = new Object();
-
-		params.uniquePhoneID = device.uuid; 
-		params.lat = latValue; //TODO: get GPS lat
-		params.long  = longValue; //TODO: get GPS long
-		params.direction = "400";//TODO: get compass direction
-		// this should set the param "imgUpload" as the img file name, as required by our callback servlet 
-		//params.imgUpload = imgFileName; // - doesnt seem to be used - callback servlet - just needs to ask for param 'file' value.
-
-		options.params = params;
-		options.fileName = imgFileName;  
-		options.mimeType = "image/jpeg"; 
-
-		ft.upload(localPictureURL, encodeURI(blobStoreURL), fileUploadSuccess, fileUploadFail, options);
-		// while the user img is uploading, show the user the image stack of... their current img on top, and the historical imgs of that location....
-		//OK- still showing original welcome screen.. need to add another page - that loads between welcome page and camera page, which then
-		//	reappears btwn user taking photo with native camera and the stack page....
-		// could be the backwards clock animated gif??
+//	localPictureURL = imageURI;
+//	imgFileName = localPictureURL.substr(localPictureURL.lastIndexOf('/') + 1);
+	
+	imgTitleVal= $('#imgTitle').val(); // get the img title entered by the user...
+	alert("imgTitleVal: " + imgTitleVal);
+	
+	// get the one time blobstore URL to post img to...
+	$.get(getBlobStoreURLEndPoint, blobStoreURLSuccess);
+	
+}
 
 
 
-	}
-
-	function onCameraFail(message) {
-		alert('Failed because: ' + message);
-	}
-
-
-	function fileUploadSuccess(r) {
-
-		// go straight to the scroll stack page??
-		// - or have a little info pop up, if the user has not submitted a histograph b4? - can check from response 
-		//	from server - 
-		// this seems to get called really late.... after all the files are uploaded.. dont need to do that-  just call straight after ft.upload...
-		//$.mobile.changePage($('#scrollStackPage'), 'slide');
-		//document.getElementById('testDiv3').innerHTML = "Success = "+ r.response;
-		//TODO:
-		// now automatically display the stack of imgs? with local file on top?
-	}
-
-	function fileUploadFail(error) {
-		//document.getElementById('testDiv3').innerHTML = "Failed = "+ error.code;
-	}
-
-//	end camera code
-/////////
+	

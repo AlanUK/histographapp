@@ -50,6 +50,11 @@ ref: http://zomigi.com/blog/foreground-images-that-scale-with-the-layout/
 	font-size: 72px;
 }
 
+.histo_font_40 {
+	font-family: 'Playball', cursive;
+	font-size: 40px;
+}
+
 .histo_font_36 {
 	font-family: 'Playball', cursive;
 	font-size: 36px;
@@ -58,6 +63,11 @@ ref: http://zomigi.com/blog/foreground-images-that-scale-with-the-layout/
 .histo_font_24 {
 	font-family: 'Playball', cursive;
 	font-size: 24px;
+}
+
+.histo_font_18 {
+	font-family: 'Playball', cursive;
+	font-size: 18px;
 }
 
 .histo_font_12 {
@@ -174,25 +184,25 @@ http://stackoverflow.com/questions/6301219/how-to-change-the-active-state-defaul
 	/* ORIG:
 	padding: 1% 1% 1% 1%;
 	*/
-	-webkit-box-shadow: 0px 0px 10px #000;
-	-moz-box-shadow: 0px 0px 10px #000;
-	-o-box-shadow: 0px 0px 10px #000;
-	-ms-box-shadow: 0px 0px 10px #000;
-	box-shadow: 0px 0px 10px #000;
-	-webkit-transition: 0.2s -webkit-transform linear;
-	-moz-transition: 0.2s -moz-transform linear;
-	-ms-transition: 0.2s -ms-transform linear;
-	-o-transition: 0.2s -o-transform linear;
-	transition: 0.2s transform linear;
+	-webkit-box-shadow: 0px 0px 10px #000 !important;
+	-moz-box-shadow: 0px 0px 10px #000 !important;
+	-o-box-shadow: 0px 0px 10px #000 !important;
+	-ms-box-shadow: 0px 0px 10px #000 !important;
+	box-shadow: 0px 0px 10px #000 !important;
+	-webkit-transition: 0.2s -webkit-transform linear !important;
+	-moz-transition: 0.2s -moz-transform linear !important;
+	-ms-transition: 0.2s -ms-transform linear !important;
+	-o-transition: 0.2s -o-transform linear !important;
+	transition: 0.2s transform linear !important;
 }
-
+/* 
 .ui-draggable-dragging {
 	-webkit-transform: rotate(0deg) scale(1.2) !important;
 	-moz-transform: rotate(0deg) scale(1.2) !important;
 	-ms-transform: rotate(0deg) scale(1.2) !important;
 	-o-transform: rotate(0deg) scale(1.2) !important;
 	transform: rotate(0deg) scale(1.2) !important;
-}
+} */
 
 #imageStack ul li img {
 	border: 1px solid #ccc;
@@ -211,14 +221,15 @@ http://stackoverflow.com/questions/6301219/how-to-change-the-active-state-defaul
 }
 
 #imageStack ul li div {
-		/* OLD
+		/* OLD 
 	position: absolute;
 	*/
-	position: relative;
+	/* left: 10%; */
+	/* position: relative;
 	bottom: 5px;
 	padding-top:10px;
-	/* left: 10%; */
-	text-align: center;
+	
+	text-align: center; */
 }
 
 #scrollStackPage{
@@ -414,10 +425,11 @@ http://stackoverflow.com/questions/6301219/how-to-change-the-active-state-defaul
 #imageStack ul li div {
 		/* OLD
 	position: absolute;
-	*/
+	
 	position: relative;
 	bottom: 15px;
 	left: 20px;
+	*/
 }
 
 #scrollStackPage{
@@ -435,4 +447,126 @@ http://stackoverflow.com/questions/6301219/how-to-change-the-active-state-defaul
 
 }
 
+.selected{
 
+}
+	
+	/*
+see: http://stackoverflow.com/questions/3384721/how-to-overlay-a-transparent-png-over-an-image-when-rolling-over-some-other-ite
+and http://stackoverflow.com/questions/7972877/how-can-i-overlay-a-png-on-every-img-tag-on-hover?rq=1
+*/
+.tick{
+	/* background-image:url(../img/tick.png);
+	height:15px; 
+	width:15px; 
+	position:absolute;
+	float:right; 
+	
+	
+		src="img/tick.png"
+						alt=" tick" 
+	
+	*/
+	height:30px !important;
+	width:30px !important;
+	position:absolute;
+	float:right; 
+	border-width:0px !important; 
+	border-color:transparent !important;
+	padding-left:86%; 
+	padding-top:2%;
+	
+}
+
+#imageStack ul li div {
+		/* OLD
+	position: absolute;
+	*/
+	position: relative;
+	bottom: 5px;
+	padding-top:10px;
+	/* left: 10%; */
+	text-align: center;
+}
+
+.makeHistoBtn{
+	height:100%;
+	width:30%;
+	background-color: blue;
+	float:right;
+	position:relative;
+	text-align: center;
+	display:inline;
+	bottom:0px;
+	top:0px;
+	padding-top:15px;
+	padding-bottom:10px; 
+	
+}
+
+.headerbar{
+	height:100%;
+	width:70%;
+	background-color:black;
+	text-align: center;
+	display:inline;
+	float:left;
+	bottom:0px;
+	top:0px;
+	position:relative;
+}
+
+
+/* Speed improvement by removing box shadows from JQM styles
+see: http://forum.jquery.com/topic/a-fix-for-low-android-performance-remove-box-shadow
+http://stackoverflow.com/questions/11333150/twitter-bootstrap-how-to-remove-gradient-mixin-in-subclass
+*/
+
+/* .ui-shadow,
+.ui-btn-up-a,
+.ui-btn-hover-a,
+.ui-btn-down-a,
+.ui-body-b,
+.ui-btn-up-b,
+.ui-btn-hover-b,
+.ui-btn-down-b,
+.ui-bar-c,
+.ui-body-c,
+.ui-btn-up-c,
+.ui-btn-hover-c,
+.ui-btn-down-c,
+.ui-bar-c,
+.ui-body-d,
+.ui-btn-up-d,
+.ui-btn-hover-d,
+.ui-btn-down-d,
+.ui-bar-d,
+.ui-body-e,
+.ui-btn-up-e,
+.ui-btn-hover-e,
+.ui-btn-down-e,
+.ui-bar-e,
+.ui-overlay-shadow,
+.ui-shadow,
+.ui-btn-active,
+.ui-body-a,
+.ui-bar-a  */
+*{
+ text-shadow: none;
+ box-shadow: none;
+ -webkit-box-shadow: none;
+  background-image: none;
+  background-image: none;
+  background-image: none;
+  background-image: none;
+  background-image: none;
+  background-image: none;
+  background-repeat: no-repeat;
+  filter: none;
+}
+
+/*  html, body, .ui-page, .ui-content, #fillme {
+    min-height: 100%;
+    height: 100%;
+} 
+ */
