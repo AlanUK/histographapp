@@ -80,17 +80,25 @@ branded spinning async wheel, until final img is returned.
 
 -->
 
-<div data-role="page" id="checkHistoPage"  data-theme="a" data-content-theme="a">
-  <div data-role="header">
-    <h1>Page Four</h1>
-  </div>
-  <div data-role="content"> Content </div>
-  <div data-role="footer">
-    <h4>Page Footer</h4>
-  </div>
-</div>
+	<div data-role="page" id="checkHistoPage" data-theme="b"
+		data-content-theme="b">
+		<div data-role="header">
 
-<!-- Histograph Presented Page End -->
+
+			<div class=" white_text headerbar histo_font_24 fillme">Your
+				Histograph. Does that look OK?</div>
+			<div class=" white_text makeHistoBtn histo_font_24 fillme">
+				<a href="#shareHistoPage" data-transition="slide" class="fill-div">Share</a>
+			</div>
+
+			<div data-role="content"></div>
+			<div id="histographImgDiv" class="">
+				<img id="histographImg" src="" alt="Your Histograph" />
+			</div>
+		</div>
+	</div>
+
+	<!-- Histograph Presented Page End -->
 
 <!-- Share Histograph Page -->
 <!-- Notes:
@@ -99,16 +107,21 @@ social media channels or via physical postcard
 -->
 <div data-role="page" id="shareHistoPage">
   <div data-role="header">
-    <h1>Page One</h1>
+    <div class=" white_text headerbar histo_font_24 fillme">Select a Service Below</div>
   </div>
-  <div data-role="content">
-    <ul data-role="listview">
-      <li><a href="#page2">Page Two</a></li>
-      <li><a href="#page3">Page Three</a></li>
-      <li><a href="#page4">Page Four</a></li>
-    </ul>
-  </div>
-  <div data-role="footer">
+		<div data-role="content">
+			<ul data-role="listview">
+				<li><a href="#facebookPage"> <img src="img/facebook.jpg" alt="facebook image"/>
+						<h3>Facebook</h3>
+				</a></li>
+				<li><a href="#twitterPage"> <img src="img/twitter.jpg" alt="twitter image"/>
+						<h3>Twitter</h3>
+				</a></li>
+				<li><a href="#postcardPage"> <img src="img/postcard.jpg" alt="postcard image" />
+						<h3>Postcard</h3></a></li>
+			</ul>
+		</div>
+		<div data-role="footer">
     <h4>Page Footer</h4>
   </div>
 </div>
@@ -191,14 +204,24 @@ Display price info, recipient details, etc - allow editing.
 	<span class="ui-title" ></span>
 </div>
   <div data-role="content">
-<label for="basic">Enter Your Location/Title of the Image</label>
-<input type="text" name="name" id="imgTitle" data-mini="true" />
+<label for="imgTitle">Enter Your Location as a Title for the Image... </label>
+<input type="text" name="name" id="imgTitle"  /> <!-- data-mini="true" -->
+<label for="imgTitle">ex: "The Old Clock Tower" or "Ditchling Road" (25 Chars or less) </label>
+  <a data-role="button" data-corners="false" data-transition="slide" data-theme="b" href="#" class="white_text histo_font_24 " data-mini="true" onclick="imgTitleEntered();"> Done</a> 
+  
   </div>
-    <div data-role="footer">
+<!--     <div data-role="footer">
     <div class=" white_text makeHistoBtn histo_font_24 fillme" onClick="imgTitleEntered();">Done</div>
+  </div> -->
+</div>
+ 
+ <!--  Plain black page - used to hide flashes btwn other page loads -->
+ <div data-role="page" id="blankBlackPage"  data-theme="a" data-content-theme="a">
+  
+  <div data-role="content">
   </div>
 </div>
-
+ 
 <!-- "fake ajax loading page..." -->
 <div data-role="page" id="developingPage"  data-theme="a" data-content-theme="a">
   

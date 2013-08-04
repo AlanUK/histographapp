@@ -15,26 +15,6 @@ ref: http://zomigi.com/blog/foreground-images-that-scale-with-the-layout/
 	margin: auto;
 }
 
-/* fills whole div as a clickable a href link*/@charset "UTF-8";
-/* CSS Document - from the main histograph project */
-
-@charset "UTF-8";
-/* CSS Document */
-/* Get rid of the gradient of all pages  - old fashioned now
-ref: http://zomigi.com/blog/foreground-images-that-scale-with-the-layout/
-	- scaling imgs based on size of parent*/
-.ui-body-a {
-	background-image: none;
-	background-color: black;
-}
-
-.histo_img_wrapper {
-	height: 105px;
-	width: 276px;
-	background-image: url(../img/HistoGraph-Logo-with-Tag.jpg);
-	margin: auto;
-}
-
 /* fills whole div as a clickable a href link*/
 .div_link {
 	position: absolute;
@@ -42,6 +22,19 @@ ref: http://zomigi.com/blog/foreground-images-that-scale-with-the-layout/
 	height: 100%;
 	top: 0;
 	left: 0;
+}
+
+/*see: http://stackoverflow.com/questions/8160494/how-to-make-a-whole-div-clickable-in-html-and-css-without-javascript 
+html:
+<div id="my-div">
+    <a href="#" class="fill-div"></a>
+</div>
+*/
+a.fill-div {
+    display: block;
+    height: 100%;
+    width: 100%;
+    text-decoration: none;
 }
 
 /* Fonts: */
@@ -210,6 +203,16 @@ http://stackoverflow.com/questions/6301219/how-to-change-the-active-state-defaul
   	max-width: 500px;
   	height: 95%;
   	max-height: 500px; 
+}
+
+#histographImg{
+	
+	width: 80%;
+	height: 80%;
+	
+/*   	max-width: 500px;
+  	max-height: 500px;  */
+	
 }
 
 #imageStack ul li img:after {
@@ -570,3 +573,27 @@ http://stackoverflow.com/questions/11333150/twitter-bootstrap-how-to-remove-grad
     height: 100%;
 } 
  */
+ 
+ #histographImgDiv{
+/*    min-height: 100%;
+   height: 100%;
+   min-width: 100%;
+   width: 100%; */
+   text-align: center;
+ } 
+ 
+ .container /*get the img in this container div to fill but not stretch the container */
+     {
+      width:100%;
+     height:100%
+     display:block; 
+     position:relative;
+     overflow:hidden;
+     }
+/* .container img 
+    {
+     position:absolute;
+     top:0;
+     left:0; 
+     width:100%;
+     } */

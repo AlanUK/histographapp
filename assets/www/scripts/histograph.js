@@ -7,6 +7,7 @@ var lastclickpoint, curclickpoint; // used to fix tab bug - see: http://forum.jq
 var liItems;
 var userImgDataStoreID = 0;
 var loaderAnim;
+var imgTitleMaxChar = 25;
 
 /////////
 //Initialisation code:
@@ -28,7 +29,6 @@ docObj.ready(function () {
 	//animateLoader();
 	//var intervalID = setInterval(runIt, 4000);
 });
-
 function animateLoader() {
 	loaderAnim.animate({opacity:'+=1'}, 1500);
 	loaderAnim.animate({opacity:'-=0.6'}, 1500);
@@ -47,11 +47,10 @@ function animateLoader() {
 function capturePhoto() {
 	//bug: when loading new image stack page - we see the welcome page for a few seconds, then the image stack page - after camera...
 	// fix: ? - load a ""holding page - that just says "Developing" here... so this MAY get shown when we actually want to move to the image stack..??
-	$.mobile.changePage($('#developingPage'), 'slide');
-	//intervalID = setInterval(runIt, 4000);
-//	for(var i = 0; i<10;i++){
-//		animateLoader();
-//	}
+	
+	// dont know if i need this here....?? - now it just gives a flash... call it after get image title pagge???
+	$.mobile.changePage($('#blankBlackPage'), 'slide');
+
 	
 	
 	
@@ -60,9 +59,9 @@ function capturePhoto() {
 		quality : 75, // tested a few settings here: size/quality ratio - 75 is best.
 		destinationType : navigator.camera.DestinationType.FILE_URI,
 		sourceType : navigator.camera.PictureSourceType.CAMERA,
-		encodingType :   Camera.EncodingType.JPEG,
-		targetWidth : 400, // 300 x 300 px - suited to polaroid format. - but comes out at: 225 x 300... might just be my phone...
-		targetHeight : 400,// 400 x 400 - comes out good quality to size ratio.. when quality is at 75.
+		encodingType :   Camera.EncodingType.JPEG, 
+		targetWidth : 450, // 300 x 300 px - suited to polaroid format. - but comes out at: 225 x 300... might just be my phone... //Made this 450x450 - as imgs come out in a rectangle - want both sides to be at least 300 - then can make crop easier
+		targetHeight : 450,// 400 x 400 - comes out good quality to size ratio.. when quality is at 75.
 		saveToPhotoAlbum: true // so that we can reference this img locally, for the local stack of polaroids.
 	});
 	
@@ -251,9 +250,13 @@ function postGPSToServer(){
 		//$('#imageStack').append(responseText).html;
 		//NEW CODE:
 		//alert("postGPSToServer() response text:" + responseText);
+		
+		//TODO: before we append the text - make sure there is something come back
+		//	else - display an error msg - in this case - its likely there's no imgs or problem with the server / network
+		//alert(responseText);
 		$('#imageStack').append(responseText).html;
 		initAnim();
-		//$.mobile.loadPage('#scrollStackPage');
+		$.mobile.loadPage('#scrollStackPage');
 	});
 }
 
@@ -352,33 +355,56 @@ function makeHistograph(){
 		}
 	});
 	
+	////////////////
+	// first version:
+//	$.get(selectedImgIdsEndPoint, {uniquePhoneID : uniquePhoneIDVal, imgids : imgidsVals}, 
+//			function(response){ // callback function - appends list of imgs to imageStack div and sets up the animation of poloriods
+//	
+//		//TODO: append the jpg to some element in the checkHisto page...
+//		$('#histographImg').attr("src", "data:image/jpeg;base64,"+ response); // histographImg is a div we will inject the whole server side img code into... whose src is a serving url of the composite img
+////		initAnim();
+////		$.mobile.changePage($('#scrollStackPage'), 'slide'); 
+//		// 
+//
+//		// finally - move to checkHistoPage
+//		$.mobile.changePage($('#checkHistoPage'), 'slide');
+//	});
+	//
+	/////////////////
 	
-	$.get(selectedImgIdsEndPoint, {uniquePhoneID : uniquePhoneIDVal, imgids : imgidsVals}, 
-			function(responseText){ // callback function - appends list of imgs to imageStack div and sets up the animation of poloriods
-		//TODO: append the jp to some element in the checkHisto page...
-//		$('#imageStack').append(responseText).html;
-//		initAnim();
-		// 
-
-		// finally - move to checkHistoPage
+	///////////////
+	// 2nd version:
+	
+	$('#histographImg')
+	.load(function(){
 		$.mobile.changePage($('#checkHistoPage'), 'slide');
 	});
+	
+	$('#histographImg').attr("src", selectedImgIdsEndPoint + "?" + "imgids=" + imgidsVals);
+	
+	
+	//$.mobile.changePage($('#checkHistoPage'), 'slide');
+	//
+	//////////
+	
+	
 	
 }
 
 function imgTitleEntered(){
 	
 	$.mobile.changePage($('#developingPage'), 'slide');
-	// now we have the img... get the img title entered by the user...
 	
-	for(var i = 0; i<10;i++){
+	for(var i = 0; i<20;i++){
 		animateLoader();
 	}
-//	localPictureURL = imageURI;
-//	imgFileName = localPictureURL.substr(localPictureURL.lastIndexOf('/') + 1);
+	
+	// now we have the img... get the img title entered by the user...
+
+	//$.mobile.changePage($('#scrollStackPage'), 'slide');
 	
 	imgTitleVal= $('#imgTitle').val(); // get the img title entered by the user...
-	alert("imgTitleVal: " + imgTitleVal);
+	//alert("imgTitleVal: " + imgTitleVal);
 	
 	// get the one time blobstore URL to post img to...
 	$.get(getBlobStoreURLEndPoint, blobStoreURLSuccess);
