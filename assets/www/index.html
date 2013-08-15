@@ -3,73 +3,99 @@
 <head>
 <meta charset="UTF-8">
 <title>HistoGraph</title>
- 
-<link href="jquery-mobile/jquery.mobile.theme-1.0.min.css" rel="stylesheet" type="text/css"/>
-<link href="jquery-mobile/jquery.mobile.structure-1.0.min.css" rel="stylesheet" type="text/css"/>
-<link rel="stylesheet" href="css/custom_styles.css" type="text/css"/>
-<link href='http://fonts.googleapis.com/css?family=Playball' rel='stylesheet' type='text/css'>
- 
-   <script src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
-  <script src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
-  <script type="text/javascript" charset="utf-8" src="scripts/cordova.js"></script>
-  <script type="text/javascript" src="scripts/histograph.js"></script>
 
+<link href="jquery-mobile/jquery.mobile.theme-1.0.min.css"
+	rel="stylesheet" type="text/css" />
+<link href="jquery-mobile/jquery.mobile.structure-1.0.min.css"
+	rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="css/custom_styles.css" type="text/css" />
+<link href='http://fonts.googleapis.com/css?family=Playball'
+	rel='stylesheet' type='text/css'>
+<link
+	href='http://fonts.googleapis.com/css?family=Archivo+Narrow:700italic'
+	rel='stylesheet' type='text/css'>
+<!-- 
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+<script type="text/javascript"
+	src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+<script type="text/javascript"
+	src="https://apis.google.com/js/client.js?onload=load">
+	</script>
+
+<script type="text/javascript" src="scripts/clipboardmanager.js"></script>
+<script type="text/javascript" charset="utf-8" src="scripts/cordova.js"></script>
+<script type="text/javascript" src="scripts/histograph.js"></script> -->
 </head>
 <body>
 
 
-<!-- Welcome Page -->
-<div data-role="page" id="welcomePage"  data-theme="a" data-content-theme="a">  
-  <div data-role="header">
-  <a href="#accountPage" data-transition="slide" data-icon="gear" data-corners="false">My Account</a>
-	<a href="#helpMainPage" data-icon="info" class="ui-btn-right" data-corners="false">Help</a>
-    
-	<span class="ui-title" ></span>
-</div>
- 
-  <div data-role="content">
-    <div class="histo_img_wrapper"> </div>
-    <div class="block_spacer"> </div>
-    <p class = "histo_font_24 red_text centre_text">Connect your present location with it's past...</p>
-    
-    <a data-role="button" data-corners="false" data-transition="slide" data-theme="b" href="#" class="white_text histo_font_24 " data-mini="true" onclick="capturePhoto();"> ...Create a HistoGraph! </a> 
-     
-    </div>
-</div>
-<!-- Welcome Page End-->
+	<!-- Welcome Page -->
+	<div data-role="page" id="welcomePage" data-theme="a"
+		data-content-theme="a">
+		<div data-role="header">
+			<a href="#accountPage" data-transition="slide" data-icon="gear"
+				data-corners="false">My Account</a> <a href="#helpPage"
+				data-icon="info" class="ui-btn-right" data-corners="false">Help</a>
 
-<!-- Scroll Stack Page -->
-<!-- Notes:
+			<span class="ui-title"></span>
+		</div>
+
+		<div data-role="content">
+			<div class="histo_img_wrapper"></div>
+			<div class="block_spacer"></div>
+			<p class="histo_font_24 red_text centre_text">Connect your
+				present location with it's past...</p>
+
+			<a data-role="button" data-corners="false" data-transition="slide"
+				data-theme="b" href="#" class="white_text histo_font_24 "
+				data-mini="true" onclick="capturePhoto();"> ...Make a
+				HistoGraph! </a>
+
+		</div>
+	</div>
+	<!-- Welcome Page End-->
+
+	<!-- Scroll Stack Page -->
+	<!-- Notes:
 By this time, the images for this location, should have returned to phone
 Now as the user is scrolling through selecting images, 
 async send the image they have taken to server and save in Datastore
 - this will speed up the creation of the composite image - can just use the id's of the images that are all now persisted.
 
 -->
-<div data-role="page" id="scrollStackPage"  data-theme="a" data-content-theme="c">
+	<div data-role="page" id="scrollStackPage" data-theme="a"
+		data-content-theme="c">
 
- <div data-role="header">
- 
- 
-<div class=" white_text headerbar histo_font_24 fillme">Tap Photo To Select/Deselect</div> <div class=" white_text makeHistoBtn histo_font_24 fillme" onClick="makeHistograph();">Done</div>
+		<div data-role="header">
 
-  </div> 
 
-  <div data-role="content"> 
-  
-  	
-  <div id="imageStack"> </div> 
+			<div class=" white_text headerbar histo_font_24 fillme">Tap
+				Photo To Select/Deselect</div>
+			<div class=" white_text makeHistoBtn histo_font_24 fillme"
+				onclick="makeHistograph();">Done</div>
 
-  </div>
-  <div data-role="footer"><!-- let user go to next step, without having to scroll to the top of the screen again.. -->
-    <div class=" white_text headerbar histo_font_24 fillme">Tap Photo To Select/Deselect</div> <div class=" white_text makeHistoBtn histo_font_24 fillme" onClick="makeHistograph();">Done</div>
-  </div>
-</div>
+		</div>
 
-<!-- Scroll Stack Page End-->
+		<div data-role="content">
 
-<!-- Histograph Presented Page -->
-<!-- Notes:
+
+			<div id="imageStack"></div>
+
+		</div>
+		<div data-role="footer">
+			<!-- let user go to next step, without having to scroll to the top of the screen again.. -->
+			<div class=" white_text headerbar histo_font_24 fillme">Tap
+				Photo To Select/Deselect</div>
+			<div class=" white_text makeHistoBtn histo_font_24 fillme"
+				onClick="makeHistograph();">Done</div>
+		</div>
+	</div>
+
+	<!-- Scroll Stack Page End-->
+
+	<!-- Histograph Presented Page -->
+	<!-- Notes:
 Once the user has selected all the images they want in the Histograph
 send these as a JSON array to server, 
 and produce composite image.
@@ -80,171 +106,474 @@ branded spinning async wheel, until final img is returned.
 
 -->
 
-	<div data-role="page" id="checkHistoPage" data-theme="b"
-		data-content-theme="b">
+	<div data-role="page" id="checkHistoPage" data-theme="a"
+		data-content-theme="a">
 		<div data-role="header">
 
-
+			<!--  
+<a href="welcomePage" data-transition="slide" data-icon="gear" data-corners="false">Home</a>-->
 			<div class=" white_text headerbar histo_font_24 fillme">Your
 				Histograph. Does that look OK?</div>
 			<div class=" white_text makeHistoBtn histo_font_24 fillme">
-				<a href="#shareHistoPage" data-transition="slide" class="fill-div">Share</a>
+				<a href="#shareHistoPage" data-transition="slide"
+					class="fill-div white_text">Share</a>
 			</div>
 
-			<div data-role="content"></div>
-			<div id="histographImgDiv" class="">
-				<img id="histographImg" src="" alt="Your Histograph" />
-			</div>
 		</div>
+		<div data-role="content"></div>
+		<div id="histographImgDiv" class="">
+			<img id="histographImg" src="" alt="Your Histograph" />
+		</div>
+
 	</div>
 
 	<!-- Histograph Presented Page End -->
 
-<!-- Share Histograph Page -->
-<!-- Notes:
+	<!-- Share Histograph Page -->
+	<!-- Notes:
 Present user option of sharing composite img via their 
 social media channels or via physical postcard
 -->
-<div data-role="page" id="shareHistoPage">
-  <div data-role="header">
-    <div class=" white_text headerbar histo_font_24 fillme">Select a Service Below</div>
-  </div>
+	<div data-role="page" id="shareHistoPage" data-theme="a"
+		data-content-theme="a">
+		<div data-role="header">
+			<a href="#welcomePage" data-transition="slide" data-icon="home"
+				data-corners="false">Home</a> <a href="#helpPage" data-icon="info"
+				class="ui-btn-right" data-corners="false">Help</a>
+		</div>
+		<div class=" white_text histo_font_24 fillme centre_text">Select
+			a Service Below</div>
 		<div data-role="content">
-			<ul data-role="listview">
-				<li><a href="#facebookPage"> <img src="img/facebook.jpg" alt="facebook image"/>
-						<h3>Facebook</h3>
+			<ul data-role="listview" id="socialList">
+				<!-- href="#facebookPage"  / href="https://www.facebook.com/"   NEED TO USE INAPP BROWSER-->
+				<!-- onclick="loadInAppBrowser('https://www.facebook.com/');" -->
+				<li><a href="#" onclick="loadFacebook();"> <img
+						src="img/facebook.png" alt="facebook image" />
+						<h3 class=" white_text histo_font_24">Facebook</h3>
 				</a></li>
-				<li><a href="#twitterPage"> <img src="img/twitter.jpg" alt="twitter image"/>
-						<h3>Twitter</h3>
+				<!-- href="#twitterPage" / href="https://twitter.com/" NEED TO USE INAPP BROWSER -->
+				<!-- "loadInAppBrowser('https://twitter.com/intent/tweet');" -->
+				<li><a href="#" onclick="loadTwitter();"> <img
+						src="img/twitter.png" alt="twitter image" />
+						<h3 class=" white_text histo_font_24">Twitter</h3>
 				</a></li>
-				<li><a href="#postcardPage"> <img src="img/postcard.jpg" alt="postcard image" />
-						<h3>Postcard</h3></a></li>
+				<li><a href="#postCardPaymentWarning" data-rel="dialog"> <img
+						src="img/postcard.png" alt="postcard image" />
+						<h3 class=" white_text histo_font_24">Postcard</h3></a></li>
 			</ul>
 		</div>
-		<div data-role="footer">
-    <h4>Page Footer</h4>
-  </div>
-</div>
-
-<!-- Share Histograph Page End-->
-
-<!-- User Account Page -->
-<!-- Notes:
-Should this be prefetched and cached?
--->
-<div data-role="page" id="accountPage">
-  <div data-role="header">
-    <h1>Account Page</h1>
-  </div>
-  <div data-role="content">
-    <ul data-role="listview">
-      <li><a href="#page2">Page Two</a></li>
-      <li><a href="#page3">Page Three</a></li>
-      <li><a href="#page4">Page Four</a></li>
-    </ul>
-  </div>
-  <div data-role="footer">
-    <h4>Page Footer</h4>
-  </div>
-</div>
-
-<!-- User Account Page End -->
-
-<!-- Enter Msg Page -->
-<!-- Notes:
-Where user enter's message to include on Postcard,
-and possibly recipient's address, if not filled from
-local contacts address book
--->
-<div data-role="page" id="enterMsgPage">
-  <div data-role="header">
-    <h1>Page One</h1>
-  </div>
-  <div data-role="content">
-    <ul data-role="listview">
-      <li><a href="#page2">Page Two</a></li>
-      <li><a href="#page3">Page Three</a></li>
-      <li><a href="#page4">Page Four</a></li>
-    </ul>
-  </div>
-  <div data-role="footer">
-    <h4>Page Footer</h4>
-  </div>
-</div>
-
-<!-- Enter Msg Page End-->
-
-<!-- confirmationPage -->
-<!-- Notes: 
-Allow user final check before sending
-Display price info, recipient details, etc - allow editing.
--->
-<div data-role="page" id="confirmationPage">
-  <div data-role="header">
-    <h1>Page One</h1>
-  </div>
-  <div data-role="content">
-    <ul data-role="listview">
-      <li><a href="#page2">Page Two</a></li>
-      <li><a href="#page3">Page Three</a></li>
-      <li><a href="#page4">Page Four</a></li>
-    </ul>
-  </div>
-  <div data-role="footer">
-    <h4>Page Footer</h4>
-  </div>
-</div>
-<!-- confirmationPage end-->
-<!--  ask user for title for img they just took with camera -->
-<div data-role="page" id="enterImgTitlePage" data-theme="a" data-content-theme="a">
-  <div data-role="header">
-  <a href="#accountPage" data-transition="slide" data-icon="gear" data-corners="false">My Account</a>
-	<a href="#helpMainPage" data-icon="info" class="ui-btn-right" data-corners="false">Help</a>
-    
-	<span class="ui-title" ></span>
-</div>
-  <div data-role="content">
-<label for="imgTitle">Enter Your Location as a Title for the Image... </label>
-<input type="text" name="name" id="imgTitle"  /> <!-- data-mini="true" -->
-<label for="imgTitle">ex: "The Old Clock Tower" or "Ditchling Road" (25 Chars or less) </label>
-  <a data-role="button" data-corners="false" data-transition="slide" data-theme="b" href="#" class="white_text histo_font_24 " data-mini="true" onclick="imgTitleEntered();"> Done</a> 
-  
-  </div>
-<!--     <div data-role="footer">
-    <div class=" white_text makeHistoBtn histo_font_24 fillme" onClick="imgTitleEntered();">Done</div>
-  </div> -->
-</div>
- 
- <!--  Plain black page - used to hide flashes btwn other page loads -->
- <div data-role="page" id="blankBlackPage"  data-theme="a" data-content-theme="a">
-  
-  <div data-role="content">
-  </div>
-</div>
- 
-<!-- "fake ajax loading page..." -->
-<div data-role="page" id="developingPage"  data-theme="a" data-content-theme="a">
-  
-  <div data-role="content">
-  <div class="block_spacer"> </div>
-  <div id="developingLoader">
-	<p class = "histo_font_36 white_text centre_text" >Developing...</p>
-	<p class = "histo_font_36 white_text centre_text" >Please Wait</p>
 	</div>
-  </div>
-</div>
 
-<!--    JS - to 'speed up' page loading speed -->
-<!--  This script came with the version of jquery mobile - but have replaced with more up to date one,
-make sure it works together..  -->
-<!--  SO this works  - but might need to change for scrolling using punch.js
-<script src="jquery-mobile/jquery-1.6.4.min.js" type="text/javascript"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.1/jquery-ui.min.js"></script>
-<script src="jquery-mobile/jquery.mobile-1.0.min.js" type="text/javascript"></script>
+	<!-- Share Histograph Page End-->
+
+	<div data-role="page" id="postcardPage" data-theme="a"
+		data-content-theme="a">
+		<div data-role="header">
+			<a href="#welcomePage" data-transition="slide" data-icon="home"
+				data-corners="false">Home</a> <a href="#helpPage" data-icon="info"
+				class="ui-btn-right" data-corners="false">Help</a>
+		</div>
+		<div data-role="content">
+			<div class="white_text histo_font_24 centre_text">Postcard
+				Recipient</div>
+			<fieldset data-role="fieldcontain">
+				<div class="white_text histo_font_24">Search Contacts:</div>
+				<input type="search" id="editSearch" placeholder="Name" />
+			</fieldset>
+			<fieldset data-role="fieldcontain">
+				<div>
+					<a data-role="button" data-transition="slide" data-corners="false"
+						data-theme="b" href="#" class="white_text histo_font_24 "
+						data-mini="true" onclick="searchContacts();"> Search</a>
+				</div>
+				<div>
+					<a data-role="button" data-transition="slide" data-corners="false"
+						data-theme="b" href="#contactEntryPage"
+						class="white_text histo_font_24 " data-mini="true"> Enter
+						Contact Manually</a>
+				</div>
+			</fieldset>
+			<div id="contactsListDiv"></div>
+		</div>
+
+
+	</div>
+
+
+	<!--  Enter/Check Contacts Details Page -->
+	<div data-role="page" id="contactEntryPage" data-theme="a"
+		data-content-theme="a">
+		<div data-role="header">
+			<a href="#welcomePage" data-transition="slide" data-icon="home"
+				data-corners="false">Home</a> <a href="#helpPage" data-icon="info"
+				class="ui-btn-right" data-corners="false">Help</a>
+		</div>
+		<div data-role="content">
+			<div class="white_text histo_font_24 centre_text">Postcard
+				Recipient</div>
+			<div id="contactDetails">
+				<fieldset data-role="fieldcontain">
+					<label for="name">Name</label> <input class="textBox" type="text"
+						id="name" placeholder="***REQUIRED***">
+				</fieldset>
+				<fieldset data-role="fieldcontain">
+					<label for="street1">Address</label> <input class="textBox"
+						type="text" id="street1"
+						placeholder="***REQUIRED*** ex: 28 Stanhope Road">
+				</fieldset>
+				<fieldset data-role="fieldcontain">
+					<label for="city">City</label> <input class="textBox" type="text"
+						id="city" placeholder="***REQUIRED*** ex: ">
+				</fieldset>
+				<fieldset data-role="fieldcontain">
+					<label for="stateCounty">County/State</label> <input
+						class="textBox" type="text" id="stateCounty"
+						placeholder="***REQUIRED***">
+				</fieldset>
+				<fieldset data-role="fieldcontain">
+					<label for="postalCode">Post/Zip Code</label> <input
+						class="textBox" type="text" id="postalCode"
+						placeholder="***REQUIRED***">
+				</fieldset>
+				<fieldset data-role="fieldcontain">
+					<label for="country">Country</label> <input class="textBox"
+						type="text" id="country" placeholder="***REQUIRED***">
+				</fieldset>
+			</div>
+			<div>
+				<a data-role="button" data-transition="slide" data-corners="false"
+					data-theme="b" href="#" class="white_text histo_font_24 "
+					data-mini="true" onclick="checkContactDetails();">OK</a>
+			</div>
+		</div>
+
+	</div>
+
+	<!-- User Account Page -->
+	<div data-role="page" id="accountPage" data-theme="a"
+		data-content-theme="a">
+		<div data-role="header">
+			<div class=" white_text histo_font_24 fillme centre_text">Your
+				Histographs, Postcards & More</div>
+		</div>
+		<div data-role="content">
+			<!--  TODO: list user's histographs here... li of shortened URL's - need a servelet that accepts device id and returns list of shortened URLs.
+  			maybe  - could store the shortened URLs with each histograph? 
+  			have: 1. personal details : email, etc, 
+  			2. histographs as hyperlinks anchor text = title 
+  			3. postcard orders - with status, and relevant dates, etc recipient,etc -->
+			<div class="white_text histo_font_24" id="accountDetails"></div>
+
+			<div class="white_text histo_font_24 centre_text" id="accountLoader">
+				Just getting your account details... <br /> Please wait
+			</div>
+		</div>
+
+	</div>
+
+
+	<div data-role="page" id="enterImgTitlePage" data-theme="a"
+		data-content-theme="a">
+		<div data-role="header">
+			<a href="#welcomePage" data-transition="slide" data-icon="home"
+				data-corners="false">Home</a> <a href="#helpPage" data-icon="info"
+				class="ui-btn-right" data-corners="false">Help</a> <span
+				class="ui-title"></span>
+		</div>
+		<div data-role="content">
+			<div class="white_text centre_text">Enter Your
+				Location as a Title for the Image (25 chars or less):</div>
+			<input type="text" name="name" id="imgTitle"
+				placeholder="The Old Clock Tower, etc" class="textBox" />
+			<!-- data-mini="true" -->
+			<a data-role="button" data-transition="slide" data-corners="false"
+				data-theme="b" href="#" class="white_text histo_font_24 "
+				data-mini="true" onclick="imgTitleEntered();"> Done</a>
+
+		</div>
+	</div>
+
+	<!--  Plain black page - used to hide flashes btwn other page loads -->
+	<div data-role="page" id="blankBlackPage" data-theme="a"
+		data-content-theme="a">
+		<div data-role="content"></div>
+	</div>
+
+	<!--  Plain white page - used to hide flashes btwn other page loads -->
+	<div data-role="page" id="blankWhitePage" data-theme="a"
+		data-content-theme="a">
+
+		<div data-role="content"></div>
+	</div>
+
+	<!-- "fake ajax loading page..." -->
+	<div data-role="page" id="developingPage" data-theme="a"
+		data-content-theme="a">
+		<div data-role="header">
+			<a href="#welcomePage" data-transition="slide" data-icon="home"
+				data-corners="false">Home</a> <span class="ui-title"></span>
+		</div>
+		<div data-role="content">
+			<div class="block_spacer"></div>
+			<div id="developingLoader">
+				<p class="histo_font_36 white_text centre_text">Developing...</p>
+				<p class="histo_font_36 white_text centre_text">Please Wait</p>
+			</div>
+		</div>
+	</div>
+
+	<div data-role="page" id="postingPage" data-theme="a"
+		data-content-theme="a">
+		<div data-role="header">
+			<a href="#welcomePage" data-transition="slide" data-icon="home"
+				data-corners="false">Home</a> <span class="ui-title"></span>
+		</div>
+		<div data-role="content">
+			<div class="block_spacer"></div>
+			<div id="postingLoader">
+				<p class="histo_font_36 white_text centre_text">Posting...</p>
+				<p class="histo_font_36 white_text centre_text">Please Wait</p>
+			</div>
+		</div>
+	</div>
+
+	<div data-role="page" id="helpPage" data-theme="a"
+		data-content-theme="a">
+
+		<div data-role="content">
+
+			<p class="histo_font_36 white_text centre_text">Help</p>
+			<div class="block_spacer"></div>
+			<p class="histo_font_24 white_text">To make a Histograph, simply:</p>
+			<div class="histo_font_24 white_text">
+				<ol>
+					<li>Press the "Create A Histograph Button"</li>
+					<li>Take a photo and if it's OK... then click OK</li>
+					<li>Enter a title for the photo. This ought to be the location
+						of photo. Ex: The Western Pier, Queens Rd, etc. Click Done.</li>
+					<li>Wait for the old images to develop...</li>
+					<li>You will be presented with a number of historical images
+						of your location. Tap the images to select them to be included in
+						your final Histograph, a green tick will appear on those images
+						you have selected. If you want to deselect any, then just tap them
+						again. Click Done.</li>
+					<li>Wait for your Histograph to develop...</li>
+					<li>Your Histograph will be presented to you. With all the old
+						photos you selected and your own photo you just took. If you are
+						happy with it, click Done.</li>
+					<li>You can choose how you will share the Histograph, select
+						either Facebook, Twitter or Postcard and follow the instructions
+						on the screen.</li>
+				</ol>
+			</div>
+
+		</div>
+	</div>
+
+	<div data-role="page" id="postInstructions">
+		<div data-role="header">
+			<div class=" white_text histo_font_24 fillme centre_text">Posting</div>
+		</div>
+		<div data-role="content">
+			<p>
+				You will be redirected to your personal account. <br /> We have
+				pasted all you need onto your clipboard, just paste it and post.<br />
+				On that page, click 'Done' to return to this screen to post your
+				Histograph in another way.
+			</p>
+			<a href="#" onclick="loadInAppBrowser();" data-role="button">OK</a>
+		</div>
+		￼
+	</div>
+
+	<div data-role="page" id="checkContactPage" data-theme="a"
+		data-content-theme="a">
+		<div data-role="header">
+			<div class=" white_text histo_font_24 fillme centre_text">Postcard
+				Recipient</div>
+		</div>
+		<div data-role="content">
+			<div id="checkContactDiv"></div>
+			<fieldset data-role="fieldcontain">
+				<a href="#messageEntryPage" data-transition="slide"
+					data-corners="false" data-role="button" data-theme="b"
+					class="white_text histo_font_24 " data-mini="true">OK</a> <a
+					href="#contactEntryPage" data-transition="slide"
+					data-corners="false" data-role="button" data-theme="b"
+					class="white_text histo_font_24 " data-mini="true">Edit</a>
+			</fieldset>
+		</div>
+		￼
+	</div>
+
+	<div data-role="page" id="messageEntryPage" data-theme="a"
+		data-content-theme="a">
+		<div data-role="header">
+			<a href="#welcomePage" data-transition="slide" data-icon="home"
+				data-corners="false">Home</a> <a href="#helpPage" data-icon="info"
+				class="ui-btn-right" data-corners="false">Help</a>
+		</div>
+		<div data-role="content">
+			<div class=" white_text histo_font_24 fillme centre_text">Postcard
+				Message</div>
+			<div id="charCount">Remaining Chars: 300</div>
+
+			<textarea cols="40" rows="8" name="postCardMsg" id="postCardMsg"
+				onkeyup="countChar(this)"
+				placeholder="Enter a message here that will be printed on your Histograph Postcard"></textarea>
+
+			<a data-role="button" data-corners="false" data-transition="slide"
+				data-theme="b" href="#" class="white_text histo_font_24 "
+				data-mini="true" onclick="checkPostCardMsg();"> OK </a>
+		</div>
+	</div>
+
+	<div data-role="page" id="checkMsgPage" data-theme="a"
+		data-content-theme="a">
+		<div data-role="header">
+			<a href="#welcomePage" data-transition="slide" data-icon="home"
+				data-corners="false">Home</a> <a href="#helpPage" data-icon="info"
+				class="ui-btn-right" data-corners="false">Help</a>
+
+
+		</div>
+		<div data-role="content">
+			<div class=" white_text histo_font_24 fillme centre_text">Check
+				Your Message</div>
+			<textarea readonly cols="40" rows="8" id="postCardMsgCheck"></textarea>
+			<fieldset data-role="fieldcontain">
+				<a data-role="button" data-corners="false" data-transition="slide"
+					data-theme="b" href="#" class="white_text histo_font_24 "
+					data-mini="true" onclick="postCardPost();"> OK - Post It!</a> <a
+					data-role="button" data-corners="false" data-transition="slide"
+					data-theme="b" href="#messageEntryPage"
+					class="white_text histo_font_24 " data-mini="true"> Edit
+					Message </a>
+			</fieldset>
+		</div>
+	</div>
+
+	<div data-role="page" id="postCardPaymentWarning" data-theme="a"
+		data-content-theme="a">
+		<div data-role="header">
+			<div class=" white_text histo_font_24 fillme centre_text">Postcard
+				Info</div>
+		</div>
+		<div data-role="content">
+			You will be charged £1.80 to send this postcard. This will cover
+			postage and printing, address correction, customer support and free
+			reprints in the case of a lost card. <br /> The postcard can be sent
+			anywhere in the world.<br /> Delivery Times: <br /> UK, EU, US &
+			Canada: 2-5 days. <br /> Rest of the world: 2-4 weeks.
+			<fieldset data-role="fieldcontain">
+				<a data-role="button" data-corners="false" data-transition="slide"
+					data-theme="b" href="#" class="white_text histo_font_24 "
+					data-mini="true" onclick="promptUserForEmail();"> OK </a> <a
+					data-role="button" data-corners="false" data-transition="slide"
+					data-theme="b" href="#shareHistoPage"
+					class="white_text histo_font_24 " data-mini="true"> Cancel </a>
+			</fieldset>
+		</div>
+	</div>
+
+
+	<div data-role="page" id="updateUserDetails" data-theme="a"
+		data-content-theme="a">
+		<div data-role="header">
+			<div class=" white_text histo_font_24 fillme centre_text">Update
+				Your Details</div>
+		</div>
+		<div data-role="content">
+			It looks like you haven't entered any contact details yet. <br />
+			It's a good idea to enter an email address so that if there's any
+			issues with your postcard we can contact you. <label for="email">Email:
+			</label> <input class="textBox" type="text" id="email">
+			<fieldset data-role="fieldcontain">
+				<a data-role="button" data-corners="false" data-transition="slide"
+					data-theme="b" href="#" class="white_text histo_font_24 "
+					data-mini="true" onclick="updateUserEmail();"> Update Email </a> <a
+					data-role="button" data-corners="false" data-transition="slide"
+					data-theme="b" href="#postcardPage"
+					class="white_text histo_font_24 " data-mini="true"> Skip This
+					Bit </a>
+			</fieldset>
+		</div>
+	</div>
+
+	<div data-role="page" id="postcardSuccessPage" data-theme="a"
+		data-content-theme="a">
+
+
+		<div data-role="header">
+			<a href="#welcomePage" data-transition="slide" data-icon="home"
+				data-corners="false">Home</a> <a href="#helpPage" data-icon="info"
+				class="ui-btn-right" data-corners="false">Help</a> <span
+				class="ui-title"></span>
+		</div>
+
+		<div data-role="content">
+			<div class=" white_text histo_font_24 fillme centre_text">Your
+				Histograph Postcard Was Posted!</div>
+			<div class=" white_text postcardStatus">
+				You can track the status of all your postcards & Histographs here: <a
+					href="#accountPage">Accounts Page</a> <br />
+				<br /> Now, would you like to share your Histograph in another way?
+				<br /> <br /> Or make a new Histograph? <br /> <br />
+			</div>
+
+			<fieldset data-role="fieldcontain">
+				<a data-role="button" data-corners="false" data-transition="slide"
+					data-theme="b" href="#shareHistoPage"
+					class="white_text histo_font_24 " data-mini="true"> Share
+					Histograph </a> <a data-role="button" data-corners="false"
+					data-transition="slide" data-theme="b" href="#"
+					class="white_text histo_font_24 " data-mini="true"
+					onclick="clearVarsAndStartAgain();"> Make New Histograph </a>
+			</fieldset>
+		</div>
+
+
+	</div>
+
+	<div data-role="page" id="postcardFailurePage" data-theme="a"
+		data-content-theme="a">
+		<div data-role="header">
+			<div class=" white_text headerbar histo_font_24 fillme">
+				Something went wrong... <br /> Sorry. <br /> You will not be charged
+				for this postcard. Would you like to try again, share your
+				Histograph in another way, or make a new Histograph?
+				<fieldset data-role="fieldcontain">
+					<a data-role="button" data-corners="false" data-transition="slide"
+						data-theme="b" href="#" class="white_text histo_font_24 "
+						data-mini="true" onclick="checkUserAccount();"> Try Posting
+						That Again </a> <a data-role="button" data-corners="false"
+						data-transition="slide" data-theme="b" href="#shareHistoPage"
+						class="white_text histo_font_24 " data-mini="true"> Share
+						Histograph </a> <a data-role="button" data-corners="false"
+						data-transition="slide" data-theme="b" href="#welcomePage"
+						class="white_text histo_font_24 " data-mini="true"> Make New
+						Histograph </a>
+				</fieldset>
+			</div>
+
+
+		</div>
+		<div data-role="content"></div>
+
+
+	</div>
+
+
+	<!--    JS - to 'speed up' page loading speed -->
+
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-1.8.2.min.js"></script>
+<script type="text/javascript"
+	src="http://code.jquery.com/mobile/1.2.0/jquery.mobile-1.2.0.min.js"></script>
+
+<script type="text/javascript" src="scripts/clipboardmanager.js"></script>
 <script type="text/javascript" charset="utf-8" src="scripts/cordova.js"></script>
 <script type="text/javascript" src="scripts/histograph.js"></script>
--->
-<!--  New: -->
 
 
 

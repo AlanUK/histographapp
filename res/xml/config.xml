@@ -102,6 +102,8 @@
       <param name="android-package" value="org.apache.cordova.InAppBrowser"/>
     </feature>
     <!-- Deprecated plugins element. Remove in 3.0 -->
-    <plugins>
+    <plugins>	
+        <plugin name="ClipboardManagerPlugin" value="com.saatcioglu.phonegap.ClipboardManagerPlugin.ClipboardManagerPlugin"/>
+        <plugin name="InAppBrowser" value="org.apache.cordova.InAppBrowser" />
     </plugins>
 </widget>
